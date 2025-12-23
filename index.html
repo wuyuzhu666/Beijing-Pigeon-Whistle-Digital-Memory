@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北京鸽哨 · 数字记忆</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Model Viewer CDN -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <!-- Google Fonts: Noto Serif SC -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-red: #a13d2d;
+            --color-paper: #f4efeb;
+            --color-ink: #332b2b;
+            --color-gold: #c5a367;
+        }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: var(--color-paper);
+            color: var(--color-ink);
+            background-image: 
+                linear-gradient(rgba(244, 239, 235, 0.9), rgba(244, 239, 235, 0.9)),
+                url('https://www.transparenttextures.com/patterns/rice-paper-3.png');
+            overflow-x: hidden;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='%23a13d2d'%3E%3Cpath d='M21 5c-1.11 0-2.06.67-2.48 1.63C17.39 6.24 16.05 6 14.5 6c-3.59 0-6.5 2.91-6.5 6.5 0 .35.03.69.08 1.03-1.48.24-2.75 1.09-3.58 2.3-.43-.16-.89-.28-1.38-.28-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.3-.04-.59-.11-.87 1.05-.3 1.95-.98 2.53-1.89.57.17 1.18.26 1.82.26 3.59 0 6.5-2.91 6.5-6.5 0-1.55-.54-2.97-1.44-4.08.38-.28.85-.42 1.44-.42 1.1 0 2 .9 2 2h2c0-2.21-1.79-4-4-4z'/%3E%3C/svg%3E"), auto;
+        }
+
+        /* 羽毛漂浮动画 */
+        .feather {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.2;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); }
+            25% { transform: translateY(15vh) translateX(50px) rotate(90deg); }
+            50% { transform: translateY(40vh) translateX(-50px) rotate(180deg); }
+            75% { transform: translateY(65vh) translateX(50px) rotate(270deg); }
+            100% { transform: translateY(110vh) translateX(0) rotate(360deg); }
+        }
+
+        .cloud-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='60' viewBox='0 0 100 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30c0-10 10-15 20-15s20 5 20 15-10 15-20 15-20-5-20-15zm-15 5c0-8 8-12 15-12s15 4 15 12-8 12-15 12-15-4-15-12zm40 0c0-8 8-12 15-12s15 4 15 12-8 12-15 12-15-4-15-12z' fill='%23a13d2d' fill-opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        .vintage-border {
+            border: 8px double var(--color-red);
+            position: relative;
+        }
+        .vintage-border::before, .vintage-border::after {
+            content: '✿';
+            position: absolute;
+            color: var(--color-red);
+            font-size: 20px;
+            background: var(--color-paper);
+            padding: 0 5px;
+        }
+        .vintage-border::before { top: -15px; left: -10px; }
+        .vintage-border::after { bottom: -15px; right: -10px; }
+
+        .nav-link { position: relative; }
+        .nav-active { color: var(--color-red); }
+        .nav-active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a13d2d'%3E%3Cpath d='M21 5c-1.11 0-2.06.67-2.48 1.63C17.39 6.24 16.05 6 14.5 6c-3.59 0-6.5 2.91-6.5 6.5 0 .35.03.69.08 1.03-1.48.24-2.75 1.09-3.58 2.3-.43-.16-.89-.28-1.38-.28-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.3-.04-.59-.11-.87 1.05-.3 1.95-.98 2.53-1.89.57.17 1.18.26 1.82.26 3.59 0 6.5-2.91 6.5-6.5 0-1.55-.54-2.97-1.44-4.08.38-.28.85-.42 1.44-.42 1.1 0 2 .9 2 2h2c0-2.21-1.79-4-4-4z'/%3E%3C/svg%3E") no-repeat center;
+            background-size: contain;
+        }
+
+        .paper-card {
+            background: #fff;
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .paper-card:hover { transform: translateY(-5px); border-color: var(--color-red); }
+        
+        @keyframes fly {
+            0% { transform: translate(-10%, 10%) scale(0.8) rotate(5deg); opacity: 0; }
+            20% { opacity: 0.3; }
+            80% { opacity: 0.3; }
+            100% { transform: translate(110%, -10%) scale(1.2) rotate(-5deg); opacity: 0; }
+        }
+        .pigeon-anim {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            color: var(--color-red);
+            opacity: 0.1;
+            animation: fly 25s linear infinite;
+        }
+
+        .roof-silhouette {
+            width: 100%;
+            height: 140px;
+            fill: #d4cdc6;
+            margin-top: -70px;
+            opacity: 0.7;
+        }
+
+        .section-title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .cloud-icon { width: 40px; height: 20px; fill: var(--color-red); opacity: 0.6; }
+        .modal { display: none; opacity: 0; transition: opacity 0.3s ease; }
+        .modal.active { display: flex; opacity: 1; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="min-h-screen pt-16 cloud-bg">
+
+    <!-- 背景轻灵羽毛 -->
+    <div class="feather" style="left: 10%; animation-duration: 15s; width: 20px;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 2.21.72 4.25 1.94 5.92L2 22l4.08-1.94C7.75 21.28 9.79 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.85 0-3.58-.6-4.99-1.61L4.83 19.5l1.11-2.18C4.93 15.91 4.33 14.28 4.33 12.5c0-4.24 3.44-7.67 7.67-7.67s7.67 3.44 7.67 7.67-3.44 7.67-7.67 7.67z"/></svg></div>
+    <div class="feather" style="left: 45%; animation-duration: 22s; width: 15px; animation-delay: 5s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 2.21.72 4.25 1.94 5.92L2 22l4.08-1.94C7.75 21.28 9.79 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.85 0-3.58-.6-4.99-1.61L4.83 19.5l1.11-2.18C4.93 15.91 4.33 14.28 4.33 12.5c0-4.24 3.44-7.67 7.67-7.67s7.67 3.44 7.67 7.67-3.44 7.67-7.67 7.67z"/></svg></div>
+    <div class="feather" style="left: 80%; animation-duration: 18s; width: 25px; animation-delay: 2s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 2.21.72 4.25 1.94 5.92L2 22l4.08-1.94C7.75 21.28 9.79 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.85 0-3.58-.6-4.99-1.61L4.83 19.5l1.11-2.18C4.93 15.91 4.33 14.28 4.33 12.5c0-4.24 3.44-7.67 7.67-7.67s7.67 3.44 7.67 7.67-3.44 7.67-7.67 7.67z"/></svg></div>
+
+    <!-- 动态鸽子背景剪影 -->
+    <div class="pigeon-anim" style="top: 15%; animation-delay: 0s;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M21 5c-1.11 0-2.06.67-2.48 1.63C17.39 6.24 16.05 6 14.5 6c-3.59 0-6.5 2.91-6.5 6.5 0 .35.03.69.08 1.03-1.48.24-2.75 1.09-3.58 2.3-.43-.16-.89-.28-1.38-.28-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.3-.04-.59-.11-.87 1.05-.3 1.95-.98 2.53-1.89.57.17 1.18.26 1.82.26 3.59 0 6.5-2.91 6.5-6.5 0-1.55-.54-2.97-1.44-4.08.38-.28.85-.42 1.44-.42 1.1 0 2 .9 2 2h2c0-2.21-1.79-4-4-4z"/></svg>
+    </div>
+
+    <!-- 顶部导航 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-[#f4efeb]/95 backdrop-blur-md border-b border-[#d4cdc6] shadow-sm">
+        <div class="max-w-screen-xl mx-auto flex justify-around p-3 text-sm font-bold md:text-base">
+            <a href="#craft" class="nav-link py-1 px-4 transition-all">技艺馆</a>
+            <a href="#sound" class="nav-link py-1 px-4 transition-all">声景图</a>
+            <a href="#culture" class="nav-link py-1 px-4 transition-all">人文观</a>
+            <a href="#interactive" class="nav-link py-1 px-4 transition-all">互动区</a>
+        </div>
+    </nav>
+
+    <!-- 首页标语 -->
+    <header class="relative pt-32 pb-40 px-6 text-center max-w-4xl mx-auto z-10 overflow-hidden">
+        <div class="absolute -top-10 -left-20 opacity-10 rotate-12 pointer-events-none">
+            <svg width="300" height="200" viewBox="0 0 100 60" fill="var(--color-red)"><path d="M30 30c0-10 10-15 20-15s20 5 20 15-10 15-20 15-20-5-20-15z"/></svg>
+        </div>
+        <!-- 情感化鸽群剪影 -->
+        <div class="absolute inset-x-0 top-16 flex justify-between px-8 opacity-30 pointer-events-none">
+            <svg class="w-28 h-20 text-[#a13d2d]" viewBox="0 0 120 80" fill="currentColor"><path d="M12 60c10-18 24-26 38-22 8 2 14-8 22-10 18-4 26 6 36 22l-8 2c-8-12-16-14-26-6-6 4-12 8-22 2-12-8-20-6-30 8z"/></svg>
+            <svg class="w-28 h-20 text-[#a13d2d]" viewBox="0 0 120 80" fill="currentColor"><path d="M20 62c8-14 20-20 32-17 7 2 12-6 19-8 15-3 22 5 31 18l-7 2c-7-10-14-12-22-5-5 4-10 7-18 1-10-7-18-5-26 9z"/></svg>
+        </div>
+
+        <h1 class="text-6xl md:text-8xl font-bold text-[#a13d2d] mb-4 tracking-tighter" style="text-shadow: 2px 2px 0px rgba(255,255,255,0.8);">北京鸽哨</h1>
+        <p class="text-xl md:text-2xl text-gray-700 leading-relaxed italic font-light mb-4">“空中交响乐，京城灵动魂”</p>
+        <p class="text-sm md:text-base text-gray-700 max-w-2xl mx-auto leading-relaxed">
+            鸽哨是一种绑在信鸽或观赏鸽身上的小乐器，靠空气冲击发声。它既是老北京胡同里的日常背景声，也是承载着技艺、记忆与情感的“空中乐谱”——不同材质、结构和飞行路线，会组合出完全不同的城市声景。
+        </p>
+        
+        <div class="mt-12 flex justify-center items-center gap-6">
+            <svg class="cloud-icon" viewBox="0 0 100 60"><path d="M30 30c0-10 10-15 20-15s20 5 20 15-10 15-20 15-20-5-20-15z"/></svg>
+            <span class="text-sm tracking-[0.5em] text-red-800 font-bold">数字记忆遗产</span>
+            <svg class="cloud-icon transform scale-x-[-1]" viewBox="0 0 100 60"><path d="M30 30c0-10 10-15 20-15s20 5 20 15-10 15-20 15-20-5-20-15z"/></svg>
+        </div>
+
+        <!-- 底部屋脊剪影 (添加鸽子) -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none">
+            <svg class="roof-silhouette" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <!-- 胡同瓦片轮廓 -->
+                <path d="M0,120 L0,80 C100,60 150,90 200,80 C250,70 300,90 350,80 C400,70 450,90 500,80 C550,70 600,90 650,80 C700,70 750,90 800,80 C850,70 900,90 950,80 C1000,70 1050,90 1100,80 C1150,70 1200,80 L1200,120 Z" />
+                <!-- 几只站立的鸽子剪影 -->
+                <circle cx="180" cy="75" r="3" fill="#888" />
+                <path d="M180,75 Q185,72 190,75" stroke="#888" fill="none" />
+                <circle cx="450" cy="78" r="4" fill="#888" />
+                <path d="M450,78 Q455,75 460,78" stroke="#888" fill="none" />
+                <circle cx="820" cy="74" r="3.5" fill="#888" />
+                <path d="M820,74 Q825,71 830,74" stroke="#888" fill="none" />
+            </svg>
+        </div>
+    </header>
+
+    <!-- 情感记忆带 -->
+    <section class="max-w-4xl mx-auto px-6 -mt-12 mb-10">
+        <div class="bg-white/70 border border-[#a13d2d]/10 rounded-2xl p-6 shadow-md flex flex-col gap-3">
+            <p class="text-[#a13d2d] font-bold text-lg">记忆闪片 · 京城鸽影</p>
+            <p class="text-gray-600 text-sm leading-relaxed">“清晨雾气里，鸽哨划开第一缕声纹；傍晚胡同口，孩子们抬头辨认鸽群的轨迹。把这些声音、故事与情绪收进一卷数字记忆。”</p>
+            <div class="flex flex-wrap gap-2 text-xs text-[#a13d2d]">
+                <span class="px-3 py-1 bg-[#a13d2d]/10 rounded-full">#老城根儿</span>
+                <span class="px-3 py-1 bg-[#a13d2d]/10 rounded-full">#夕照归巢</span>
+                <span class="px-3 py-1 bg-[#a13d2d]/10 rounded-full">#风带与哨音</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 分区 A: 技艺馆 -->
+    <section id="craft" class="py-16 px-6 max-w-screen-xl mx-auto relative">
+        <div class="mb-10 text-center">
+            <div class="section-title-wrapper mb-2">
+                <svg class="cloud-icon" viewBox="0 0 100 60"><path d="M30 30c0-10 10-15 20-15s20 5 20 15-10 15-20 15-20-5-20-15z"/></svg>
+                <h2 class="text-4xl font-bold text-[#a13d2d]">技艺馆</h2>
+                <svg class="cloud-icon transform scale-x-[-1]" viewBox="0 0 100 60"><path d="M30 30c0-10 10-15 20-15s20 5 20 15-10 15-20 15-20-5-20-15z"/></svg>
+            </div>
+            <p class="text-gray-500 text-sm tracking-widest">3D器物展示与制作流程</p>
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <div id="filter-chips" class="flex flex-wrap justify-center md:justify-start gap-3 overflow-x-auto pb-2 hide-scrollbar"></div>
+            <button id="vr-hall-btn" class="mx-auto md:mx-0 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#a13d2d]/40 text-[#a13d2d] text-xs font-bold hover:bg-[#a13d2d] hover:text-white transition-all">
+                <span>进入线上鸽哨展厅（VR）</span>
+            </button>
+        </div>
+        <div id="exhibit-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-24 relative z-10"></div>
+        <div class="bg-white/60 p-10 vintage-border backdrop-blur-sm shadow-xl">
+            <h3 class="text-2xl font-bold mb-10 text-center text-[#a13d2d]">制作流程 · 六大工序</h3>
+            <div id="craft-steps" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8"></div>
+            <div class="mt-10">
+                <h4 class="text-center text-sm text-gray-500 mb-3">AI 演示 · 鸽哨制作流程</h4>
+                <div class="aspect-video rounded-2xl overflow-hidden bg-black/80">
+                    <video id="craft-video" class="w-full h-full" controls playsinline></video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 分区 B: 声景图 -->
+    <section id="sound" class="py-24 bg-[#ede7e1]/80 px-6 relative overflow-hidden">
+        <div class="max-w-screen-xl mx-auto relative z-10">
+            <div class="mb-16 text-center">
+                <div class="section-title-wrapper mb-2">
+                    <svg class="cloud-icon" viewBox="0 0 100 60"><path d="M30 30c0-10 10-15 20-15s20 5 20 15-10 15-20 15-20-5-20-15z"/></svg>
+                    <h2 class="text-4xl font-bold text-[#a13d2d]">声景图</h2>
+                    <svg class="cloud-icon transform scale-x-[-1]" viewBox="0 0 100 60"><path d="M30 30c0-10 10-15 20-15s20 5 20 15-10 15-20 15-20-5-20-15z"/></svg>
+                </div>
+            </div>
+            <div id="route-tabs" class="flex justify-center gap-4 mb-10 overflow-x-auto pb-2"></div>
+            <div class="flex flex-col lg:flex-row gap-8 bg-white/60 p-8 rounded-xl border border-[#d4cdc6] shadow-2xl backdrop-blur-md">
+                <div id="node-list" class="lg:w-1/3 flex flex-col gap-4 max-h-[550px] overflow-y-auto pr-4 custom-scrollbar"></div>
+                <div id="node-detail" class="lg:w-2/3 min-h-[450px]">
+                    <div id="node-placeholder" class="h-full flex flex-col items-center justify-center text-gray-300">
+                        <svg class="w-24 h-24 mb-6 opacity-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+                        <p class="text-lg font-bold">请点击左侧节点探寻声影</p>
+                    </div>
+                    <div id="node-content" class="hidden animate-fadeIn">
+                        <div class="relative aspect-[16/9] rounded-xl overflow-hidden mb-8 bg-gray-200 shadow-lg group">
+                            <img id="node-img" src="" class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105">
+                            <div id="node-tags" class="absolute bottom-6 left-6 flex gap-3"></div>
+                        </div>
+                        <h3 id="node-name" class="text-3xl font-bold text-[#a13d2d] mb-6"></h3>
+                        <p id="node-desc" class="text-gray-700 leading-relaxed mb-8 text-lg font-light"></p>
+                        <div class="bg-white/90 p-6 rounded-xl flex items-center justify-between border border-[#eee] shadow-sm">
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 bg-[#a13d2d] rounded-full flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-transform shadow-lg" onclick="toggleNodeAudio()">
+                                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-bold text-[#a13d2d]">听见 · 此时此刻</span>
+                                    <span id="node-audio-name" class="text-xs text-gray-400 italic">正在加载音频...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 分区 C: 人文观 -->
+    <section id="culture" class="py-24 px-6 max-w-screen-xl mx-auto">
+        <div class="mb-16 text-center">
+            <div class="section-title-wrapper mb-2">
+                <svg class="cloud-icon" viewBox="0 0 100 60"><path d="M30 30c0-10 10-15 20-15s20 5 20 15-10 15-20 15-20-5-20-15z"/></svg>
+                <h2 class="text-4xl font-bold text-[#a13d2d]">人文观</h2>
+                <svg class="cloud-icon transform scale-x-[-1]" viewBox="0 0 100 60"><path d="M30 30c0-10 10-15 20-15s20 5 20 15-10 15-20 15-20-5-20-15z"/></svg>
+            </div>
+        </div>
+        <div class="mb-32">
+            <div id="people-tabs" class="flex justify-center gap-12 mb-12 border-b border-gray-200"></div>
+            <div id="people-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </div>
+        <div class="mb-32 relative">
+            <div class="absolute inset-0 bg-[#a13d2d]/5 -skew-y-1 rounded-3xl"></div>
+            <div class="relative p-12 overflow-hidden">
+                <h3 class="text-center text-2xl font-bold mb-12 flex items-center justify-center gap-4">
+                    <span class="w-12 h-px bg-gray-300"></span> 历史长河 <span class="w-12 h-px bg-gray-300"></span>
+                </h3>
+                <div id="timeline-container" class="flex overflow-x-auto pb-10 hide-scrollbar gap-8 px-4"></div>
+            </div>
+        </div>
+        <div class="max-w-4xl mx-auto bg-white/40 p-12 rounded-3xl border border-gray-100 shadow-inner">
+            <h3 class="text-center text-2xl font-bold mb-10">术语词典 · 拾遗</h3>
+            <div class="relative mb-12">
+                <input type="text" id="term-search" placeholder="输入关键词（如：雷音、挎子）" class="w-full p-5 pl-14 rounded-full border-2 border-[#a13d2d]/10 focus:border-[#a13d2d] outline-none shadow-sm transition-all text-lg">
+                <svg class="w-7 h-7 absolute left-5 top-5 text-[#a13d2d]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <div id="term-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+        <div class="max-w-4xl mx-auto mt-12 bg-[#a13d2d]/8 p-10 rounded-3xl border border-[#a13d2d]/15 shadow-inner">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">🕊️</span>
+                <div>
+                    <p class="text-sm text-[#a13d2d] font-bold">北京话里的鸽哨</p>
+                    <p class="text-lg font-bold text-[#332b2b]">方言与口头记忆</p>
+                </div>
+            </div>
+            <div id="dialect-list" class="space-y-3 text-sm text-gray-700"></div>
+        </div>
+        <div class="max-w-4xl mx-auto mt-10 bg-white/60 p-8 rounded-3xl border border-gray-100 shadow-inner">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <p class="text-xs text-[#a13d2d] font-bold tracking-widest">文艺视角</p>
+                    <p class="text-lg font-bold text-[#332b2b]">诗词 · 文献 · 字画 · 影视</p>
+                </div>
+            </div>
+            <div id="literature-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+    </section>
+
+    <!-- 历史长河详情模态框 -->
+    <div id="timeline-modal" class="modal fixed inset-0 z-[90] bg-black/80 items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-[#f4efeb] w-full max-w-3xl max-h-[85vh] rounded-2xl shadow-2xl relative overflow-hidden flex flex-col">
+            <button onclick="closeTimelineModal()" class="absolute top-4 right-4 z-20 bg-white/80 p-2 rounded-full hover:bg-[#a13d2d] hover:text-white transition-all shadow">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="p-6 border-b border-gray-200">
+                <p id="tl-period" class="text-xs text-[#a13d2d] tracking-widest mb-1"></p>
+                <h3 id="tl-title" class="text-2xl font-bold text-[#332b2b]"></h3>
+            </div>
+            <div class="flex-1 overflow-y-auto p-6 custom-scrollbar">
+                <p id="tl-detail" class="text-sm text-gray-700 leading-relaxed mb-4"></p>
+                <div id="tl-images" class="grid grid-cols-3 gap-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分区 D: 互动区 -->
+    <section id="interactive" class="py-24 bg-[#ede7e1]/80 px-6 relative">
+        <div class="max-w-screen-xl mx-auto relative z-10">
+            <div class="mb-16 text-center">
+                <h2 class="text-4xl font-bold mb-3 text-[#a13d2d]">互动区</h2>
+                <p class="text-gray-500 text-sm tracking-widest">珍藏您的北京记忆</p>
+            </div>
+            <!-- 自制鸽哨小互动 -->
+            <div class="bg-white/80 border border-[#a13d2d]/15 rounded-2xl p-6 shadow-md mb-8">
+                <h3 class="font-bold text-lg mb-3 text-[#a13d2d] flex items-center gap-2">
+                    <span>🕊️</span> 自己配一只鸽哨（试一试）
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                    <select id="diy-material" class="p-3 rounded-lg border border-gray-200 focus:border-[#a13d2d] outline-none">
+                        <option value="葫芦">葫芦</option>
+                        <option value="竹管">竹管</option>
+                        <option value="葫芦+竹片">葫芦+竹片</option>
+                    </select>
+                    <select id="diy-tone" class="p-3 rounded-lg border border-gray-200 focus:border-[#a13d2d] outline-none">
+                        <option value="雷音">雷音</option>
+                        <option value="蛉音">蛉音</option>
+                        <option value="五音">五音</option>
+                    </select>
+                    <select id="diy-scene" class="p-3 rounded-lg border border-gray-200 focus:border-[#a13d2d] outline-none">
+                        <option value="胡同口">胡同口</option>
+                        <option value="水面">水面</option>
+                        <option value="城楼">城楼</option>
+                    </select>
+                </div>
+                <button onclick="generateDIY()" class="px-4 py-2 bg-[#a13d2d] text-white rounded-lg text-sm font-bold shadow hover:translate-y-[-1px] transition-all">生成搭配建议</button>
+                <p id="diy-result" class="mt-3 text-sm text-gray-700 italic">选择材质、音色和场景，获得一条专属建议。</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="bg-white p-10 vintage-border shadow-2xl">
+                    <h3 class="font-bold text-xl mb-8 border-b-2 border-[#a13d2d]/10 pb-4 flex items-center gap-3">
+                        <span class="text-red-800">●</span> 鸽哨记忆展示
+                    </h3>
+                    <div class="space-y-4 mb-6 text-sm text-gray-700">
+                        <p>这里可以嵌入一段精心制作的鸽哨记忆影像：一张定格照片配合一段短视频，用来讲述“某一刻的城中哨声”。</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="aspect-video rounded-2xl overflow-hidden bg-[#f9f7f5] border border-gray-200 shadow-inner">
+                            <img id="memory-image" src="" alt="鸽哨记忆图片" class="w-full h-full object-cover">
+                        </div>
+                        <div class="aspect-video rounded-2xl overflow-hidden bg-black shadow-inner">
+                            <video id="memory-video" class="w-full h-full" controls playsinline></video>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-10 vintage-border shadow-2xl">
+                    <h3 class="font-bold text-xl mb-8 border-b-2 border-[#a13d2d]/10 pb-4 flex items-center gap-3">
+                        <span class="text-red-800">●</span> 我的记忆投稿
+                    </h3>
+                    <form onsubmit="submitMemory(event)" class="space-y-5 mb-12">
+                        <textarea id="mem-text" required placeholder="分享一段您与鸽哨、鸽子或老北京胡同的故事..." class="w-full p-4 border-2 border-gray-100 rounded-xl h-40 resize-none outline-none focus:border-[#a13d2d] transition-all text-gray-700"></textarea>
+                        <input id="mem-place" type="text" placeholder="发生地点（可选）" class="w-full p-3 border-2 border-gray-100 rounded-xl outline-none focus:border-[#a13d2d] transition-all">
+                        <button type="submit" class="w-full bg-[#a13d2d] text-white py-3 rounded-xl font-bold shadow-lg transition-all">提交记录</button>
+                    </form>
+                    <div id="memory-list" class="space-y-6 max-h-[450px] overflow-y-auto pr-2 custom-scrollbar"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 展品详情模态框 -->
+    <div id="exhibit-modal" class="modal fixed inset-0 z-[100] bg-black/90 items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-[#f4efeb] w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl relative flex flex-col md:flex-row border-4 border-[#a13d2d]/20">
+            <button onclick="closeModal()" class="absolute top-6 right-6 z-20 bg-white/80 p-3 rounded-full hover:bg-[#a13d2d] hover:text-white transition-all shadow-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="md:w-1/2 min-h-[400px] bg-white relative cloud-bg flex items-center justify-center">
+                <model-viewer id="modal-model" class="w-full h-full" src="" camera-controls auto-rotate shadow-intensity="1" ar shadow-softness="1"></model-viewer>
+            </div>
+            <div class="md:w-1/2 p-10 overflow-y-auto custom-scrollbar">
+                <div id="modal-tags" class="flex gap-3 mb-6"></div>
+                <h2 id="modal-name" class="text-5xl font-bold text-[#a13d2d] mb-4"></h2>
+                <div class="flex items-center gap-6 mb-8 pb-8 border-b border-gray-200">
+                    <span id="modal-category" class="text-sm bg-[#a13d2d] text-white px-3 py-1 rounded-full font-bold shadow-sm"></span>
+                    <span id="modal-sound" class="text-sm text-gray-500 font-serif italic border-l pl-6"></span>
+                </div>
+                <div class="mb-10 p-6 bg-white/80 rounded-2xl shadow-inner border border-gray-100">
+                    <h4 class="text-xs font-bold mb-4 uppercase tracking-widest text-red-800 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                        试听 · 哨音采样
+                    </h4>
+                    <div id="modal-audio-list" class="space-y-3"></div>
+                </div>
+                <p id="modal-desc" class="text-gray-700 leading-relaxed mb-10 text-lg font-light"></p>
+                <div id="modal-photos" class="grid grid-cols-2 gap-3 mb-10"></div>
+                <div id="modal-links" class="border-t border-dashed pt-8 flex flex-wrap gap-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="global-audio" class="hidden"></audio>
+    <script src="app.js"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

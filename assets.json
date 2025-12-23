@@ -1,0 +1,449 @@
+{
+  "siteConfig": {
+    "title": "北京鸽哨 · 数字记忆",
+    "intro": "“空中交响乐，京城灵动魂” —— 穿越云端的非遗哨鸣",
+    "vrHallUrl": "https://example.com/vr-hall-placeholder",
+    "craftVideoUrl": "https://www.w3schools.com/html/mov_bbb.mp4"
+  },
+  "exhibits": [
+    {
+      "id": "ex_01",
+      "name": "大红葫芦哨",
+      "category": "葫芦类",
+      "soundType": "低沉浑厚",
+      "soundTone": "雷",
+      "pigeonType": "楼鸽",
+      "pigeonAdapt": "大群飞行",
+      "modelUrl": "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+      "thumbUrl": "https://images.unsplash.com/photo-1523419400524-b65e0b9c6c9b?auto=format&fit=crop&w=800&q=60",
+      "description": "以成熟葫芦为身、竹片为舌，声如滚雷，适合楼鸽大群盘旋，远距离也能清晰辨识。",
+      "audioIds": ["au_01", "au_02"],
+      "photoUrls": [
+        "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=60"
+      ],
+      "peopleIds": ["pe_01", "pe_04"],
+      "termIds": ["tm_01", "tm_05"],
+      "placeIds": ["pl_01", "pl_02"]
+    },
+    {
+      "id": "ex_02",
+      "name": "十五眼联哨",
+      "category": "星排类",
+      "soundType": "多声部和弦",
+      "soundTone": "五音",
+      "pigeonType": "领头鸽",
+      "pigeonAdapt": "远航表演",
+      "modelUrl": "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",
+      "thumbUrl": "https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=800&q=60",
+      "description": "十五孔排哨需要精准调律，飞过头顶时呈现空间环绕的和声，常用于节庆表演。",
+      "audioIds": ["au_02", "au_03"],
+      "photoUrls": [
+        "https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=60"
+      ],
+      "peopleIds": ["pe_02", "pe_05"],
+      "termIds": ["tm_02", "tm_04", "tm_10"],
+      "placeIds": ["pl_03"]
+    },
+    {
+      "id": "ex_03",
+      "name": "星眼独鸣哨",
+      "category": "星眼类",
+      "soundType": "明亮穿透",
+      "soundTone": "蛉",
+      "pigeonType": "观赏鸽",
+      "pigeonAdapt": "近距离表演",
+      "modelUrl": "https://modelviewer.dev/shared-assets/models/ShopifyMascot.glb",
+      "thumbUrl": "https://images.unsplash.com/photo-1503389152951-9f343605f61e?auto=format&fit=crop&w=800&q=60",
+      "description": "星眼哨的孔径较小，发声尖亮，如昆虫振翅，常用于近距离展示和教学演示。",
+      "audioIds": ["au_04"],
+      "photoUrls": [
+        "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1471879832106-c7ab9e0cee23?auto=format&fit=crop&w=900&q=60"
+      ],
+      "peopleIds": ["pe_03", "pe_06"],
+      "termIds": ["tm_03", "tm_08"],
+      "placeIds": ["pl_04"]
+    },
+    {
+      "id": "ex_04",
+      "name": "联筒合鸣哨",
+      "category": "联筒类",
+      "soundType": "层叠簧鸣",
+      "soundTone": "五音",
+      "pigeonType": "楼鸽",
+      "pigeonAdapt": "巡游与竞技",
+      "modelUrl": "https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb",
+      "thumbUrl": "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=800&q=60",
+      "description": "多筒组合的联筒哨，低中高频叠加，能在巡游或竞飞时形成层层推进的声音波浪。",
+      "audioIds": ["au_05", "au_06"],
+      "photoUrls": [
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1471879832106-c7ab9e0cee23?auto=format&fit=crop&w=900&q=60"
+      ],
+      "peopleIds": ["pe_07", "pe_08"],
+      "termIds": ["tm_06", "tm_11"],
+      "placeIds": ["pl_05", "pl_06"]
+    }
+  ],
+  "audios": [
+    {
+      "id": "au_01",
+      "name": "什刹海清晨单鸣",
+      "type": "雷音",
+      "region": "什刹海",
+      "url": "https://cdn.pixabay.com/download/audio/2022/10/03/audio_daa9d8cb96.mp3?filename=soft-rain-ambient-117777.mp3"
+    },
+    {
+      "id": "au_02",
+      "name": "钟鼓楼鸽群齐鸣",
+      "type": "和弦",
+      "region": "钟鼓楼",
+      "url": "https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e29725d01.mp3?filename=calm-nature-ambient-141076.mp3"
+    },
+    {
+      "id": "au_03",
+      "name": "中轴线俯冲回声",
+      "type": "五音",
+      "region": "地安门",
+      "url": "https://cdn.pixabay.com/download/audio/2022/03/15/audio_43ce3917de.mp3?filename=soft-breeze-ambient-141075.mp3"
+    },
+    {
+      "id": "au_04",
+      "name": "胡同口碎金声",
+      "type": "蛉音",
+      "region": "鼓楼东大街",
+      "url": "https://cdn.pixabay.com/download/audio/2021/08/04/audio_9b5c7601f1.mp3?filename=light-breeze-ambient-6105.mp3"
+    },
+    {
+      "id": "au_05",
+      "name": "广场风带低旋",
+      "type": "雷音",
+      "region": "什刹海",
+      "url": "https://cdn.pixabay.com/download/audio/2022/10/31/audio_8e94cff75f.mp3?filename=warm-breeze-ambient-124150.mp3"
+    },
+    {
+      "id": "au_06",
+      "name": "黄昏群归长鸣",
+      "type": "五音",
+      "region": "永定门",
+      "url": "https://cdn.pixabay.com/download/audio/2021/08/09/audio_cef5af5eb1.mp3?filename=wind-and-leaves-ambient-6138.mp3"
+    }
+  ],
+  "routes": [
+    {
+      "id": "rt_01",
+      "name": "中轴线寻声路线",
+      "nodes": [
+        {
+          "id": "nd_01",
+          "name": "钟鼓楼广场",
+          "description": "晨钟暮鼓间，鸽群绕塔盘旋，厚重雷音与木塔回声叠加。",
+          "audioId": "au_02",
+          "photoUrls": ["https://images.unsplash.com/photo-1526481280695-3c469c2f88b8?auto=format&fit=crop&w=1000&q=60"],
+          "tags": ["晨曦", "历史", "人群"]
+        },
+        {
+          "id": "nd_02",
+          "name": "景山后身",
+          "description": "红墙绿瓦映衬下，哨声在树冠与城垣间穿梭，格外清亮。",
+          "audioId": "au_01",
+          "photoUrls": ["https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1000&q=60"],
+          "tags": ["幽静", "高旷"]
+        },
+        {
+          "id": "nd_03",
+          "name": "南池子胡同口",
+          "description": "狭窄胡同形成天然声道，蛉音在墙面间回绕，近距离可辨节奏变化。",
+          "audioId": "au_04",
+          "photoUrls": ["https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=60"],
+          "tags": ["胡同", "近距", "清脆"]
+        }
+      ]
+    },
+    {
+      "id": "rt_02",
+      "name": "胡同风声路线",
+      "nodes": [
+        {
+          "id": "nd_04",
+          "name": "什刹海水面",
+          "description": "水面反射让低频更加厚实，偶有船桨声与哨音交织。",
+          "audioId": "au_05",
+          "photoUrls": ["https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=60"],
+          "tags": ["水面", "回声", "悠远"]
+        },
+        {
+          "id": "nd_05",
+          "name": "鼓楼东大街口",
+          "description": "人流与车声背景下，联哨的和弦穿透街口，形成独特城市声景。",
+          "audioId": "au_03",
+          "photoUrls": ["https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1000&q=60"],
+          "tags": ["街口", "繁忙", "穿透"]
+        },
+        {
+          "id": "nd_06",
+          "name": "永定门城楼",
+          "description": "傍晚归巢路线，五音哨叠加余晖，成为城市南端的日常合鸣。",
+          "audioId": "au_06",
+          "photoUrls": ["https://images.unsplash.com/photo-1471879832106-c7ab9e0cee23?auto=format&fit=crop&w=1000&q=60"],
+          "tags": ["黄昏", "归巢", "远景"]
+        }
+      ]
+    }
+  ],
+  "people": [
+    {
+      "id": "pe_01",
+      "name": "张长荣",
+      "group": "传承人",
+      "description": "国家级非遗代表性传承人，擅长葫芦哨定音，善用鱼胶与大漆。",
+      "featuredExhibitIds": ["ex_01"]
+    },
+    {
+      "id": "pe_09",
+      "name": "李小泉",
+      "group": "传承人",
+      "description": "自小在什刹海边长大，擅长根据风向微调哨孔，被同行称为“听风的人”。",
+      "featuredExhibitIds": ["ex_04"]
+    },
+    {
+      "id": "pe_02",
+      "name": "梅兰芳",
+      "group": "名人与玩家",
+      "description": "京剧大师与资深鸽友，收藏多套联哨，讲究“声随戏行”。",
+      "featuredExhibitIds": ["ex_02"]
+    },
+    {
+      "id": "pe_10",
+      "name": "赵叔同",
+      "group": "名人与玩家",
+      "description": "老画家与鸽友，常以鸽哨声为灵感创作城市场景速写，认为“先听声再落笔”。",
+      "featuredExhibitIds": ["ex_03"]
+    },
+    {
+      "id": "pe_03",
+      "name": "苏明",
+      "group": "文学记录者",
+      "description": "写作者，记录胡同声景，常用星眼哨音比拟京味散文节奏。",
+      "featuredExhibitIds": ["ex_03"]
+    },
+    {
+      "id": "pe_11",
+      "name": "韩雨",
+      "group": "文学记录者",
+      "description": "纪录片撰稿人，长期跟拍北京鸽友，用长篇口述与随笔记录他们的生活日常。",
+      "featuredExhibitIds": ["ex_01", "ex_02"]
+    },
+    {
+      "id": "pe_04",
+      "name": "李阿大",
+      "group": "传承人",
+      "description": "老北京匠人，讲究“气道顺、音不糊”，主攻低频葫芦哨。",
+      "featuredExhibitIds": ["ex_01"]
+    },
+    {
+      "id": "pe_05",
+      "name": "陈少白",
+      "group": "名人与玩家",
+      "description": "摄影师玩家，常在中轴线拍摄联哨与鸽群的轨迹光影。",
+      "featuredExhibitIds": ["ex_02"]
+    },
+    {
+      "id": "pe_06",
+      "name": "何凉",
+      "group": "文学记录者",
+      "description": "口述史整理者，记录星眼哨与少年记忆，善用声音地图讲述。",
+      "featuredExhibitIds": ["ex_03"]
+    },
+    {
+      "id": "pe_07",
+      "name": "阿九",
+      "group": "虚构人物",
+      "description": "胡同跑酷少年，能分辨出不同联筒哨的分频，梦想做声音设计师。",
+      "featuredExhibitIds": ["ex_04"]
+    },
+    {
+      "id": "pe_08",
+      "name": "燕子",
+      "group": "虚构人物",
+      "description": "信鸽陪练员，给鸽子配哨如搭配乐队，擅长五音搭配。",
+      "featuredExhibitIds": ["ex_04"]
+    },
+    {
+      "id": "pe_12",
+      "name": "老董",
+      "group": "虚构人物",
+      "description": "胡同口修车铺老板，耳朵极灵，能听出哪家鸽哨“跑音”，常被邻居请去帮忙调哨。",
+      "featuredExhibitIds": ["ex_01", "ex_04"]
+    }
+  ],
+  "terms": [
+    { "id": "tm_01", "term": "雷音", "definition": "低沉浑厚、带颤感的哨音，多由大体积葫芦哨发出，远距离穿透力强。", "relatedActivity": "高空盘旋", "relatedExhibitIds": ["ex_01"] },
+    { "id": "tm_02", "term": "挎子", "definition": "挂在鸽尾的连接件，角度影响气流方向与哨音强弱。", "relatedActivity": "拴哨", "relatedExhibitIds": ["ex_02"] },
+    { "id": "tm_03", "term": "蛉音", "definition": "尖亮如昆虫振翅的高频声，常见于星眼哨。", "relatedActivity": "近距表演", "relatedExhibitIds": ["ex_03"] },
+    { "id": "tm_04", "term": "合鸣", "definition": "多哨同响形成和声效果，需精确调律与鸽群协同。", "relatedActivity": "巡游", "relatedExhibitIds": ["ex_02", "ex_04"] },
+    { "id": "tm_05", "term": "定音孔", "definition": "决定音高的小孔，位置与口径是调律核心。", "relatedActivity": "定音", "relatedExhibitIds": ["ex_01"] },
+    { "id": "tm_06", "term": "联筒", "definition": "多只哨筒组合的形式，可叠加不同频段。", "relatedActivity": "组装", "relatedExhibitIds": ["ex_04"] },
+    { "id": "tm_07", "term": "飞线", "definition": "鸽子飞行路线，决定声音传播方向与延时感。", "relatedActivity": "放飞" },
+    { "id": "tm_08", "term": "气道", "definition": "气流通道设计，影响音色纯度和稳定性。", "relatedActivity": "打磨", "relatedExhibitIds": ["ex_03"] },
+    { "id": "tm_09", "term": "束翅", "definition": "为保护哨体或调整气流对鸽翅进行轻束，需经验。", "relatedActivity": "安全" },
+    { "id": "tm_10", "term": "排哨", "definition": "多个小哨按序排列固定，常见十五眼、九眼等组合。", "relatedActivity": "调律", "relatedExhibitIds": ["ex_02"] },
+    { "id": "tm_11", "term": "漆封", "definition": "使用大漆或清漆封口防潮，兼具美观。", "relatedActivity": "上漆", "relatedExhibitIds": ["ex_04"] },
+    { "id": "tm_12", "term": "风口", "definition": "哨体进气口，开口朝向和角度决定气流入射。", "relatedActivity": "开孔" },
+    { "id": "tm_13", "term": "盘旋点", "definition": "鸽群惯常盘旋的空域，利于录音与观赏。", "relatedActivity": "观测" },
+    { "id": "tm_14", "term": "跑道风", "definition": "胡同形成的走廊风，可加强高频的清晰度。", "relatedActivity": "场地选择" },
+    { "id": "tm_15", "term": "鸣停", "definition": "鸽群落地后哨声渐停的段落，常用于收束演示。", "relatedActivity": "收放" }
+  ],
+  "timeline": [
+    {
+      "id": "t1",
+      "period": "北宋",
+      "title": "雏形出现",
+      "text": "相传军鸽携哨用于传递与警戒，形成早期雏形。",
+      "detail": "据传在边关和水域巡逻中，人们在军鸽身上挂上简单的哨具，用来区分不同方向和队伍。",
+      "images": [
+        "https://images.unsplash.com/photo-1604079628040-94301bb21b11?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1526481280695-3c469c2f88b8?auto=format&fit=crop&w=900&q=60"
+      ]
+    },
+    {
+      "id": "t2",
+      "period": "明代",
+      "title": "民间萌芽",
+      "text": "京城百姓开始在闲时放鸽玩哨，出现简单木哨。",
+      "detail": "手工木哨和竹哨出现于市集边角，人们在城门外、河岸边放飞自养的家鸽，听其鸣响解乏。",
+      "images": [
+        "https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1526481280695-3c469c2f88b8?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=60"
+      ]
+    },
+    {
+      "id": "t3",
+      "period": "清代",
+      "title": "工艺鼎盛",
+      "text": "八旗子弟竞相玩赏，哨体材质与雕饰日臻成熟。",
+      "detail": "葫芦、竹、骨、木等材料百花齐放，雕刻、描金、嵌螺钿等工艺与音色追求并行不悖。",
+      "images": [
+        "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1526481280695-3c469c2f88b8?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=60"
+      ]
+    },
+    {
+      "id": "t4",
+      "period": "民国",
+      "title": "城景声记忆",
+      "text": "鸽哨成为北平城日常声景之一，坊间形成交流圈。",
+      "detail": "从什刹海到前门大街，清晨与傍晚的鸽哨声成了城市节奏的一部分，报纸上也偶有相关记载。",
+      "images": [
+        "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1526481280695-3c469c2f88b8?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1471879832106-c7ab9e0cee23?auto=format&fit=crop&w=900&q=60"
+      ]
+    },
+    {
+      "id": "t5",
+      "period": "1980s",
+      "title": "复兴与整理",
+      "text": "老匠人传授技艺，学者开始系统整理制作与音色谱。",
+      "detail": "随着城市变迁，部分老匠人开始口述整理工艺，声音采集设备也被用于记录不同哨音。",
+      "images": [
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1526481280695-3c469c2f88b8?auto=format&fit=crop&w=900&q=60"
+      ]
+    },
+    {
+      "id": "t6",
+      "period": "2014年",
+      "title": "非遗认定",
+      "text": "北京鸽哨制作技艺列入国家级非物质文化遗产名录。",
+      "detail": "“北京鸽哨制作技艺”作为重要民间传统技艺，被正式纳入国家级非遗保护体系。",
+      "images": [
+        "https://images.unsplash.com/photo-1526481280695-3c469c2f88b8?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=60"
+      ]
+    },
+    {
+      "id": "t7",
+      "period": "现在",
+      "title": "数字化保存",
+      "text": "声音采集、3D扫描与在线展演，形成数字记忆计划。",
+      "detail": "录音、3D建模、在线展览等方式被广泛尝试，更多年轻人通过屏幕接触到这门技艺。",
+      "images": [
+        "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=60"
+      ]
+    }
+  ],
+  "craftSteps": [
+    { "id": "s1", "title": "选材", "text": "挑选干透葫芦/老竹，检查密度与声学稳定性。" },
+    { "id": "s2", "title": "锯截", "text": "按设计尺寸锯开，确保切口平整以便密封。" },
+    { "id": "s3", "title": "定音", "text": "开定音孔、调节角度，是音色成败关键。" },
+    { "id": "s4", "title": "粘合", "text": "使用鱼膘胶或天然漆封口，避免漏气。" },
+    { "id": "s5", "title": "上漆", "text": "多层漆封防潮并提升外观，可加入纹样。" },
+    { "id": "s6", "title": "刻字", "text": "雕刻纹样或落款，赋予器物身份与祝福。" }
+  ],
+  "dialects": [
+    { "id": "d1", "phrase": "拉哨", "meaning": "给鸽子挂上鸽哨，强调动作和技巧。", "note": "老鸽友会说“今儿拉套低音的”" },
+    { "id": "d2", "phrase": "跑道风", "meaning": "胡同形成的狭长风道，哨声更亮。", "note": "常用来挑场地，“这条胡同风顺，跑道风好”" },
+    { "id": "d3", "phrase": "听个响儿", "meaning": "去特定地点听鸽哨的习惯表达。", "note": "“下班去钟楼底下听个响儿再回家”" },
+    { "id": "d4", "phrase": "醒耳", "meaning": "指哨音清脆提神，醒耳一响。", "note": "夸赞蛉音或五音排哨的明亮感" }
+  ],
+  "literatures": [
+    {
+      "id": "l1",
+      "type": "诗词",
+      "title": "城头鸽影",
+      "summary": "以近体诗的形式记录黄昏中鸽哨声与城楼剪影。",
+      "images": [
+        "https://images.unsplash.com/photo-1526481280695-3c469c2f88b8?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1471879832106-c7ab9e0cee23?auto=format&fit=crop&w=900&q=60"
+      ]
+    },
+    {
+      "id": "l2",
+      "type": "文献",
+      "title": "旧报剪影",
+      "summary": "整理报刊上关于北京鸽哨的早期资料与访谈片段。",
+      "images": [
+        "https://images.unsplash.com/photo-1447069387593-a5de0862481e?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1447069387593-a5de0862481e?auto=format&fit=crop&w=900&q=60"
+      ]
+    },
+    {
+      "id": "l3",
+      "type": "字画",
+      "title": "鸽哨题跋",
+      "summary": "书画家以鸽哨为题，留下题字与小幅写意。",
+      "images": [
+        "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=60"
+      ]
+    },
+    {
+      "id": "l4",
+      "type": "影视",
+      "title": "镜头里的哨声",
+      "summary": "纪录片和电影片段中，城市远景配以鸽哨声的经典镜头。",
+      "images": [
+        "https://images.unsplash.com/photo-1500534314211-0a24cd03f2c0?auto=format&fit=crop&w=900&q=60",
+        "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=900&q=60"
+      ]
+    }
+  ],
+  "places": [
+    { "id": "pl_01", "name": "什刹海", "description": "水面与胡同交织的声场，低频回声明显。" },
+    { "id": "pl_02", "name": "景山", "description": "高处俯瞰城廓，哨音传播远且清晰。" },
+    { "id": "pl_03", "name": "钟鼓楼", "description": "历史地标，晨昏钟鼓与哨声形成独特合奏。" },
+    { "id": "pl_04", "name": "南池子胡同", "description": "狭长胡同形成“跑道风”，高频更亮。" },
+    { "id": "pl_05", "name": "地安门", "description": "中轴节点，常作为放飞起点，便于集合。" },
+    { "id": "pl_06", "name": "永定门", "description": "南城开阔地带，适合远距离合鸣展示。" }
+  ]
+}
