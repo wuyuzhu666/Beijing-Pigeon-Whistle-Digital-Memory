@@ -6,8 +6,8 @@
     <title>北京鸽哨 · 数字记忆</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Model Viewer CDN -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <!-- Model Viewer CDN (主) -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/@google/model-viewer@3.4.0/dist/model-viewer.min.js'"></script>
     <!-- Google Fonts: Noto Serif SC -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -211,7 +211,7 @@
                 <span>进入线上鸽哨展厅（VR）</span>
             </button>
         </div>
-        <div id="exhibit-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-24 relative z-10"></div>
+        <div id="exhibit-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mb-24 relative z-10"></div>
         <div class="bg-white/60 p-10 vintage-border backdrop-blur-sm shadow-xl">
             <h3 class="text-2xl font-bold mb-10 text-center text-[#a13d2d]">制作流程 · 六大工序</h3>
             <div id="craft-steps" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8"></div>
@@ -277,7 +277,7 @@
         </div>
         <div class="mb-32">
             <div id="people-tabs" class="flex justify-center gap-12 mb-12 border-b border-gray-200"></div>
-            <div id="people-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            <div id="people-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></div>
         </div>
         <div class="mb-32 relative">
             <div class="absolute inset-0 bg-[#a13d2d]/5 -skew-y-1 rounded-3xl"></div>
@@ -406,11 +406,12 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
             <div class="md:w-1/2 min-h-[400px] bg-white relative cloud-bg flex items-center justify-center">
-                <model-viewer id="modal-model" class="w-full h-full" src="" camera-controls auto-rotate shadow-intensity="1" ar shadow-softness="1"></model-viewer>
+                <model-viewer id="modal-model" class="w-full h-full min-h-[400px]" src="" camera-controls auto-rotate shadow-intensity="1" ar environment-image="neutral" exposure="1" tone-mapping="commerce"></model-viewer>
+                <iframe id="modal-sketchfab" class="hidden w-full h-full border-0" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share></iframe>
             </div>
             <div class="md:w-1/2 p-10 overflow-y-auto custom-scrollbar">
                 <div id="modal-tags" class="flex gap-3 mb-6"></div>
-                <h2 id="modal-name" class="text-5xl font-bold text-[#a13d2d] mb-4"></h2>
+                <h2 id="modal-name" class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#a13d2d] mb-4 break-words"></h2>
                 <div class="flex items-center gap-6 mb-8 pb-8 border-b border-gray-200">
                     <span id="modal-category" class="text-sm bg-[#a13d2d] text-white px-3 py-1 rounded-full font-bold shadow-sm"></span>
                     <span id="modal-sound" class="text-sm text-gray-500 font-serif italic border-l pl-6"></span>
@@ -422,7 +423,7 @@
                     </h4>
                     <div id="modal-audio-list" class="space-y-3"></div>
                 </div>
-                <p id="modal-desc" class="text-gray-700 leading-relaxed mb-10 text-lg font-light"></p>
+                <p id="modal-desc" class="text-gray-700 leading-relaxed mb-10 text-base md:text-lg font-light break-words"></p>
                 <div id="modal-photos" class="grid grid-cols-2 gap-3 mb-10"></div>
                 <div id="modal-links" class="border-t border-dashed pt-8 flex flex-wrap gap-3"></div>
             </div>

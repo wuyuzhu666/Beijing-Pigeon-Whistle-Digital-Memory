@@ -93,18 +93,17 @@ function renderCraftSection() {
 function renderExhibits(items) {
     const grid = document.getElementById('exhibit-grid');
     grid.innerHTML = items.map(ex => `
-        <div class="paper-card rounded-2xl p-5 flex flex-col cursor-pointer animate-fadeIn" onclick="openExhibitModal('${ex.id}')">
-            <div class="aspect-square bg-[#f9f7f5] mb-5 overflow-hidden rounded-xl relative group shadow-inner">
-                <img src="${textOrFallback(ex.thumbUrl, FALLBACK_IMG)}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='${FALLBACK_IMG}'">
+        <div class="paper-card rounded-2xl p-4 md:p-5 flex flex-col cursor-pointer animate-fadeIn" onclick="openExhibitModal('${ex.id}')">
+            <div class="aspect-square bg-[#f9f7f5] mb-4 md:mb-5 overflow-hidden rounded-xl relative group shadow-inner">
+                <img src="${textOrFallback(ex.thumbUrl, FALLBACK_IMG)}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='${FALLBACK_IMG}'" alt="${textOrFallback(ex.name)}">
                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity backdrop-blur-[2px]">
                     <span class="text-white text-xs border-2 border-white px-4 py-1.5 rounded-full font-bold">赏玩细节</span>
                 </div>
             </div>
-            <h3 class="font-bold text-xl mb-1 text-[#332b2b]">${textOrFallback(ex.name)}</h3>
-            <p class="text-xs text-[#a13d2d] font-serif mb-4 italic">${textOrFallback(ex.soundType)}</p>
-            <div class="mt-auto flex gap-2">
-                <span class="text-[10px] bg-gray-50 px-2 py-1 rounded-md text-gray-400 font-bold border border-gray-100">${textOrFallback(ex.category)}</span>
-                <span class="text-[10px] bg-[#a13d2d]/5 px-2 py-1 rounded-md text-[#a13d2d] font-bold border border-[#a13d2d]/10">${textOrFallback(ex.pigeonType)}</span>
+            <h3 class="font-bold text-lg md:text-xl mb-1 text-[#332b2b] break-words">${textOrFallback(ex.name)}</h3>
+            <p class="text-xs text-[#a13d2d] font-serif mb-3 md:mb-4 italic break-words">${textOrFallback(ex.soundType)}</p>
+            <div class="mt-auto flex flex-wrap gap-2">
+                <span class="text-[10px] bg-gray-50 px-2 py-1 rounded-md text-gray-400 font-bold border border-gray-100 break-words">${textOrFallback(ex.category)}</span>
             </div>
         </div>
     `).join('');
@@ -126,7 +125,49 @@ function openExhibitModal(id) {
     document.getElementById('modal-sound').innerText = `音律特征：${textOrFallback(ex.soundType)}`;
     document.getElementById('modal-desc').innerText = textOrFallback(ex.description);
     const modelEl = document.getElementById('modal-model');
-    modelEl.src = textOrFallback(ex.modelUrl, '');
+    const sketchfabEl = document.getElementById('modal-sketchfab');
+    const modelUrl = textOrFallback(ex.modelUrl, '');
+    
+    // 检测是否是 Sketchfab 链接
+    if (modelUrl.includes('sketchfab.com') || modelUrl.includes('skfb.ly')) {
+        // 隐藏 model-viewer，显示 Sketchfab iframe
+        modelEl.classList.add('hidden');
+        sketchfabEl.classList.remove('hidden');
+        
+        // 如果已经是嵌入链接，直接使用
+        if (modelUrl.includes('/embed')) {
+            sketchfabEl.src = modelUrl;
+        } else {
+            // 转换链接为嵌入 URL
+            let embedUrl = '';
+            if (modelUrl.includes('sketchfab.com/models/')) {
+                // 从完整链接提取模型ID
+                const match = modelUrl.match(/sketchfab\.com\/models\/([^\/\?]+)/);
+                if (match) {
+                    embedUrl = `https://sketchfab.com/models/${match[1]}/embed`;
+                }
+            } else if (modelUrl.includes('skfb.ly/')) {
+                // 短链接需要解析
+                embedUrl = modelUrl.replace('skfb.ly/', 'sketchfab.com/models/').replace(/\/$/, '') + '/embed';
+            }
+            
+            if (embedUrl) {
+                sketchfabEl.src = embedUrl;
+            } else {
+                // 如果无法解析，使用原始链接
+                sketchfabEl.src = modelUrl;
+            }
+        }
+    } else {
+        // 普通 GLB 文件，使用 model-viewer（如果将来需要）
+        modelEl.classList.remove('hidden');
+        sketchfabEl.classList.add('hidden');
+        if (modelUrl) {
+            modelEl.src = modelUrl;
+        } else {
+            modelEl.src = '';
+        }
+    }
     const audioBox = document.getElementById('modal-audio-list');
     const relatedAudios = safeList(db.audios).filter(a => safeList(ex.audioIds).includes(a.id)).slice(0, 1);
     audioBox.innerHTML = relatedAudios.map(a => `
@@ -143,9 +184,11 @@ function openExhibitModal(id) {
         </button>
     `).join('');
     const photoBox = document.getElementById('modal-photos');
-    photoBox.innerHTML = safeList(ex.photoUrls).map(url => `
+    // 显示2张图片：封面thumbUrl + photoUrls的第一张
+    const photos = [ex.thumbUrl, ...safeList(ex.photoUrls)].slice(0, 2).filter(url => url);
+    photoBox.innerHTML = photos.length > 0 ? photos.map(url => `
         <div class="overflow-hidden rounded-xl aspect-video bg-gray-100"><img src="${textOrFallback(url, FALLBACK_IMG)}" class="w-full h-full object-cover" onerror="this.src='${FALLBACK_IMG}'"></div>
-    `).join('');
+    `).join('') : `<div class="overflow-hidden rounded-xl aspect-video bg-gray-100 flex items-center justify-center text-gray-400">暂无图片</div>`;
     document.getElementById('modal-tags').innerHTML = safeList(ex.termIds).map(tid => {
         const t = safeList(db.terms).find(x => x.id === tid);
         return t ? `<span class="bg-[#a13d2d]/10 text-[#a13d2d] text-[10px] px-3 py-1 rounded-full font-bold"># ${t.term}</span>` : '';
@@ -239,11 +282,13 @@ function stopAudioWithFade(callback) {
 }
 
 function renderCultureSection() {
-    const groups = ['传承人', '名人与玩家', '文学记录者', '虚构人物'];
+    // 从实际数据中提取唯一的group，排除虚构人物
+    const allGroups = [...new Set(safeList(db.people).map(p => p.group).filter(g => g && !g.includes('虚构')))];
+    const groups = allGroups.length > 0 ? allGroups : ['传承人', '名人与玩家', '文学记录者'];
     document.getElementById('people-tabs').innerHTML = groups.map((g, idx) => `
         <button onclick="filterPeople('${g}')" class="p-group-btn pb-4 text-base font-bold transition-all ${idx===0 ? 'text-[#a13d2d] border-b-4 border-[#a13d2d]' : 'text-gray-400 border-b-4 border-transparent'}">${g}</button>
     `).join('');
-    filterPeople(groups[0]);
+    if(groups.length > 0) filterPeople(groups[0]);
     document.getElementById('timeline-container').innerHTML = safeList(db.timeline).map(item => `
         <button onclick="openTimelineModal('${item.id}')" class="flex-shrink-0 w-72 p-8 bg-white/80 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all text-left">
             <span class="text-[#a13d2d] font-bold text-sm block mb-2">${item.period}</span>
@@ -257,19 +302,23 @@ function renderCultureSection() {
 }
 
 function filterPeople(group) {
-    const filtered = safeList(db.people).filter(p => p.group === group);
+    // 过滤掉虚构人物，并按group匹配（支持部分匹配，因为group可能有不同格式）
+    const filtered = safeList(db.people)
+        .filter(p => p.group && !p.group.includes('虚构'))
+        .filter(p => p.group === group || p.group.includes(group) || group.includes(p.group))
+        .slice(0, 3); // 每组最多3个
     document.querySelectorAll('.p-group-btn').forEach(btn => {
-        const isActive = btn.innerText === group;
+        const isActive = btn.innerText === group || btn.innerText.includes(group);
         btn.classList.toggle('text-[#a13d2d]', isActive);
         btn.classList.toggle('border-[#a13d2d]', isActive);
     });
-    document.getElementById('people-grid').innerHTML = filtered.map(p => `
+    document.getElementById('people-grid').innerHTML = filtered.length > 0 ? filtered.map(p => `
         <div class="bg-white p-6 rounded-2xl border border-gray-50 shadow-sm hover:shadow-xl transition-all group">
-            <h4 class="font-bold text-2xl mb-2 text-[#332b2b]">${p.name}</h4>
-            <span class="text-[10px] bg-[#a13d2d] text-white px-2 py-0.5 rounded-md mb-6 inline-block font-bold">${p.group}</span>
-            <p class="text-sm text-gray-500 leading-relaxed mb-6 font-light">${p.description}</p>
+            <h4 class="font-bold text-xl md:text-2xl mb-2 text-[#332b2b] break-words">${textOrFallback(p.name)}</h4>
+            <span class="text-[10px] bg-[#a13d2d] text-white px-2 py-0.5 rounded-md mb-4 inline-block font-bold break-words">${textOrFallback(p.group)}</span>
+            <p class="text-sm text-gray-500 leading-relaxed mb-6 font-light break-words">${textOrFallback(p.description)}</p>
         </div>
-    `).join('');
+    `).join('') : '<div class="col-span-full text-center text-gray-400 py-8">暂无数据</div>';
 }
 
 function renderTerms(list) {
@@ -305,8 +354,8 @@ function renderLiteratures(list) {
                 <span class="text-[10px] text-gray-400">${l.title}</span>
             </div>
             <p class="text-xs text-gray-600 leading-relaxed">${l.summary}</p>
-            <div class="grid grid-cols-2 gap-2 mt-1">
-                ${safeList(l.images).slice(0,2).map(url => `
+            <div class="mt-1">
+                ${safeList(l.images).slice(0,1).map(url => `
                     <div class="aspect-video rounded-xl overflow-hidden bg-gray-100">
                         <img src="${textOrFallback(url, FALLBACK_IMG)}" class="w-full h-full object-cover" onerror="this.src='${FALLBACK_IMG}'">
                     </div>
@@ -345,8 +394,13 @@ function initSearch() {
 function initInteractiveSection() {
     const imgEl = document.getElementById('memory-image');
     const vidEl = document.getElementById('memory-video');
-    if (imgEl) imgEl.src = FALLBACK_IMG;
-    if (vidEl) vidEl.src = db.siteConfig && db.siteConfig.craftVideoUrl ? db.siteConfig.craftVideoUrl : '';
+    if (imgEl) {
+        imgEl.src = db.siteConfig && db.siteConfig.memoryImageUrl ? db.siteConfig.memoryImageUrl : FALLBACK_IMG;
+        bindImgFallback(imgEl);
+    }
+    if (vidEl) {
+        vidEl.src = db.siteConfig && db.siteConfig.memoryVideoUrl ? db.siteConfig.memoryVideoUrl : '';
+    }
 }
 function generateDIY() {
     const material = document.getElementById('diy-material').value;

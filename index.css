@@ -19,3 +19,25 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* 自适应样式 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 确保文字和卡片内容自适应 */
+.paper-card,
+.bg-white {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 响应式字体大小 */
+@media (max-width: 640px) {
+  .text-5xl { font-size: 2rem; }
+  .text-4xl { font-size: 1.75rem; }
+  .text-3xl { font-size: 1.5rem; }
+  .text-2xl { font-size: 1.25rem; }
+  .text-xl { font-size: 1.125rem; }
+}
+
