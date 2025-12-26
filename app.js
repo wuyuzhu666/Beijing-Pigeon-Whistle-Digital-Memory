@@ -290,11 +290,11 @@ function renderCultureSection() {
     `).join('');
     if(groups.length > 0) filterPeople(groups[0]);
     document.getElementById('timeline-container').innerHTML = safeList(db.timeline).map(item => `
-        <button onclick="openTimelineModal('${item.id}')" class="flex-shrink-0 w-72 p-8 bg-white/80 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all text-left">
+        <div class="flex-shrink-0 w-72 p-8 bg-white/80 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-sm text-left">
             <span class="text-[#a13d2d] font-bold text-sm block mb-2">${item.period}</span>
             <h4 class="font-bold text-xl mb-4 text-[#332b2b]">${item.title}</h4>
             <p class="text-xs text-gray-500 leading-relaxed font-light">${item.text}</p>
-        </button>
+        </div>
     `).join('');
     renderTerms(safeList(db.terms));
     renderDialects(safeList(db.dialects));
